@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import static frc.robot.Util.logf;
 import static frc.robot.Util.round2;
 import static frc.robot.Util.normalizeAngle;
-
 import com.ctre.phoenix.sensors.CANCoder;
 //import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 //import com.ctre.phoenix.sensors.CANCoder;
@@ -12,7 +11,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
@@ -51,10 +49,9 @@ import static frc.robot.Constants.isMini;
  * load the shuffleboard.json file in the root of this directory to get the full
  * effect of the GUI layout.
  */
-@SuppressWarnings("all") 
+
 
 public class GrabberTiltSubsystem extends SubsystemBase {
-
     private static final int GRABBER_TILT_MOTOR_ID = 12;
     // this is the conversion ratio from the absolute encoder to the relative encoder of 
     // the tilt motor 
