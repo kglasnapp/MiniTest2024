@@ -3,9 +3,9 @@ package frc.robot.subsystems;
 import static frc.robot.Util.logf;
 import static frc.robot.Util.round2;
 import static frc.robot.Util.normalizeAngle;
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder;
 //import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-//import com.ctre.phoenix.sensors.CANCoder;
+//import com.ctre.phoenix.sensors.CA    .NCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -63,7 +63,7 @@ public class GrabberTiltSubsystem extends SubsystemBase {
     private SparkMaxPIDController pidController;
     private RelativeEncoder tiltEncoder;
     private PID_MAX pid = new PID_MAX();
-    private CANCoder absEnc;
+    private CANcoder absEnc;
     private double rotationsPerDegree = 1; 
     private LimitSwitch limitSwitch;
     private boolean homed = false;
@@ -87,7 +87,7 @@ public class GrabberTiltSubsystem extends SubsystemBase {
         grabberTiltMotor.setSmartCurrentLimit(10);
 
         limitSwitch = new LimitSwitch(grabberTiltMotor, "Tlt", Leds.GrabberForward, Leds.GrabberReverse);
-        absEnc = new CANCoder(9);
+        absEnc = new CANcoder(9);
         tiltEncoder = grabberTiltMotor.getEncoder();
         tiltEncoder.setPosition(getAbsEncoder() / ABSOLUTE_ENCODER_RATIO);
         pidController = grabberTiltMotor.getPIDController();
@@ -198,7 +198,7 @@ public class GrabberTiltSubsystem extends SubsystemBase {
 
     // If grabber retracted it is safe to move the elevator
     public double getAbsEncoder() {
-        double angle = absEnc.getAbsolutePosition();
+        double angle = absEnc.getAbsolutePosition().getValue();
         return 178 - angle;
     }
 

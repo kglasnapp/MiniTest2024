@@ -33,15 +33,16 @@ import frc.robot.commands.DefaultElevatorCommand;
 import frc.robot.commands.FieldHeadingDriveCommand;
 import frc.robot.commands.DefaultGrabberCommand;
 import frc.robot.commands.DriveToObjectCommand;
-import frc.robot.commands.PositionCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.GrabberTiltSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
-//import frc.robot.subsystems.LimeLightPose;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.PoseEstimatorSubsystem;
+import frc.robot.subsystems.SRXMotor;
+import frc.robot.subsystems.SparkMotor;
+
 import static frc.robot.utilities.Util.logf;
 
 /**
@@ -64,11 +65,12 @@ public class RobotContainer {
     NONE, ELEVATOR, TILT
   }
 
-  // Used by DisplayLLogCommand to be able to determine elapsed time for autonomous
+  // Used by DisplayLLogCommand to be able to determine elapsed time for
+  // autonomous
   public static long autonomousInitTime = 0;
 
   public static enum OperatorButtons {
-     HOME(3),  CUBE(2), CONE(1), GROUND(4), CHUTE(5), SHELF(6), LOW(7), MIDDLE(8), HIGH(9),ELECTRIALHOME(12),;
+    HOME(3), CUBE(2), CONE(1), GROUND(4), CHUTE(5), SHELF(6), LOW(7), MIDDLE(8), HIGH(9), ELECTRIALHOME(12),;
 
     public final int value;
 
@@ -84,6 +86,8 @@ public class RobotContainer {
   public GrabberTiltSubsystem grabberSubsystem = null;
   private IntakeSubsystem intakeSubsystem = null;
   public ElevatorSubsystem elevatorSubsystem = null;
+  // private SRXMotor shooter;
+  // private SRXMotor grabber;
 
   private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
   // private final LimeLightPose limeLightPose = new LimeLightPose();
@@ -114,11 +118,13 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
     if (miniMotors) {
       grabberSubsystem = new GrabberTiltSubsystem();
       intakeSubsystem = new IntakeSubsystem();
       elevatorSubsystem = new ElevatorSubsystem(grabberSubsystem);
     }
+
     // Set up the default command for the drivetrain.
     drivetrain.setDefaultCommand(new DefaultDriveCommand(
         drivetrain,
@@ -134,6 +140,10 @@ public class RobotContainer {
       elevatorSubsystem
           .setDefaultCommand(new DefaultElevatorCommand(elevatorSubsystem, grabberSubsystem, driveController));
     }
+
+    new SRXMotor("Shooter", 14, driveController, 2);
+    new SRXMotor("Grabber", 15, driveController, 3);
+    new SparkMotor("SparkTest", 8, driveController);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -192,13 +202,20 @@ public class RobotContainer {
       }
     }));
 
-    operatorController.button(OperatorButtons.HIGH.value).onTrue(new PositionCommand(this, OperatorButtons.HIGH));
-    operatorController.button(OperatorButtons.MIDDLE.value).onTrue(new PositionCommand(this, OperatorButtons.MIDDLE));
-    operatorController.button(OperatorButtons.LOW.value).onTrue(new PositionCommand(this, OperatorButtons.LOW));
-    operatorController.button(OperatorButtons.GROUND.value).onTrue(new PositionCommand(this, OperatorButtons.GROUND));
-    operatorController.button(OperatorButtons.CHUTE.value).onTrue(new PositionCommand(this, OperatorButtons.CHUTE));
-    operatorController.button(OperatorButtons.SHELF.value).onTrue(new PositionCommand(this, OperatorButtons.SHELF));
-    operatorController.button(OperatorButtons.HOME.value).onTrue(new PositionCommand(this, OperatorButtons.HOME));
+    // operatorController.button(OperatorButtons.HIGH.value).onTrue(new
+    // PositionCommand(this, OperatorButtons.HIGH));
+    // operatorController.button(OperatorButtons.MIDDLE.value).onTrue(new
+    // PositionCommand(this, OperatorButtons.MIDDLE));
+    // operatorController.button(OperatorButtons.LOW.value).onTrue(new
+    // PositionCommand(this, OperatorButtons.LOW));
+    // operatorController.button(OperatorButtons.GROUND.value).onTrue(new
+    // PositionCommand(this, OperatorButtons.GROUND));
+    // operatorController.button(OperatorButtons.CHUTE.value).onTrue(new
+    // PositionCommand(this, OperatorButtons.CHUTE));
+    // operatorController.button(OperatorButtons.SHELF.value).onTrue(new
+    // PositionCommand(this, OperatorButtons.SHELF));
+    // operatorController.button(OperatorButtons.HOME.value).onTrue(new
+    // PositionCommand(this, OperatorButtons.HOME));
   }
 
   /**
