@@ -2,9 +2,11 @@ package frc.robot.subsystems;
 
 import static frc.robot.utilities.Util.logf;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Robot;
@@ -16,30 +18,50 @@ public class SRXMotor extends SubsystemBase {
     private WPI_TalonSRX motor;
     private CommandXboxController driveController;
     private int controllerAxis;
-    private FeedbackDevice feedBackDevice;
+    private FeedbackDevice feedBackDevice = FeedbackDevice.QuadEncoder;
     private boolean sensorPhase = false;
+    private boolean positionMode;
+    private PID_SRX pid;
 
-    public SRXMotor(String name, int id, CommandXboxController drivecontroller, int controllerAxis) {
+    public SRXMotor(String name, int id, CommandXboxController drivecontroller, int controllerAxis,
+            boolean positionMode) {
         this.id = id;
         this.name = name;
         this.driveController = drivecontroller;
         this.controllerAxis = controllerAxis;
+        this.positionMode = positionMode;
         motor = new WPI_TalonSRX(this.id);
-        // motor = new TalonSRX(this.id);
-        // new WPI_TalonSRX
         motor.configFactoryDefault(20);
-        logf("Created SRX Motor %s id:%d\n", name, id);
-        motor.setSafetyEnabled(true);
+        logf("Created SRX Motor %s id:%d mode:%s\n", name, id, positionMode ? "Position" : "Percent");
+        motor.setSafetyEnabled(false);
+        setSensorPhase(true);
+        if (this.positionMode) {
+            pid = new PID_SRX(name, .1, 0, 0, 0,0, -.2, .2, true);
+            setPositionPID(pid, feedBackDevice);
+        }
     }
 
     @Override
     public void periodic() {
-        double x = driveController.getHID().getRawAxis(controllerAxis);
-        // motor.set(ControlMode.PercentOutput, x);
-        motor.set(x);
-        if (Robot.count % 5 == 0 && Math.abs(x) > .03) {
-            logf("Motor %s  Control:%.2f Pos:%.2f Volts:%.2f\n", name, x, motor.getSelectedSensorPosition(),
-                    motor.getBusVoltage());
+        double enc = motor.getSelectedSensorPosition();
+        SmartDashboard.putNumber(name + " enc", enc);
+        if (positionMode) {
+            double setPoint = driveController.getHID().getPOV() * 1000;
+            if (setPoint >= 0) {
+                motor.set(ControlMode.Position, setPoint);
+                if (Robot.count % 5 == 0) {
+                    logf("Motor %s serPoint:%.2f Pos:%.2f Volts:%.2f\n", name, setPoint,
+                            enc, motor.getBusVoltage());
+                }
+
+            }
+        } else {
+            double x = driveController.getHID().getRawAxis(controllerAxis);
+            motor.set(ControlMode.PercentOutput, x);
+            if (Robot.count % 5 == 0 && Math.abs(x) > .03) {
+                logf("Motor %s Control:%.2f Pos:%.2f Volts:%.2f\n", name, x, enc,
+                        motor.getBusVoltage());
+            }
         }
     }
 

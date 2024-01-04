@@ -141,8 +141,8 @@ public class RobotContainer {
           .setDefaultCommand(new DefaultElevatorCommand(elevatorSubsystem, grabberSubsystem, driveController));
     }
 
-    new SRXMotor("Shooter", 14, driveController, 2);
-    new SRXMotor("Grabber", 15, driveController, 3);
+    new SRXMotor("Shooter", 14, driveController, 2, true);
+    new SRXMotor("Grabber", 15, driveController, 3, false);
     new SparkMotor("SparkTest", 8, driveController);
 
     // Configure the button bindings

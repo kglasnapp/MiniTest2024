@@ -64,7 +64,6 @@ public class SparkMotor extends SubsystemBase {
     private double lastSetPoint = 0;
     private double lastInches = 0;
     private String name = "";
-
     final private double MAX_CURRENT = 20;
     private int myCount = 0;
     private CommandXboxController driveController;
@@ -103,7 +102,7 @@ public class SparkMotor extends SubsystemBase {
         double setPoint = inches * rotationsPerInch;
         lastSetPoint = setPoint;
         lastInches = inches;
-        logf("Set Elevator position:%.2f set point:%f\n", inches, setPoint);
+        logf("Set position:%.2f set point:%3f\n", inches, setPoint);
         pidController.setReference(setPoint, CANSparkMax.ControlType.kSmartMotion);
         SmartDashboard.putNumber("Elev SP", setPoint);
         SmartDashboard.putNumber("Elev Inch", inches);
