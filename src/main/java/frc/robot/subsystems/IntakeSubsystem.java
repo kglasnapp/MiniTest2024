@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import static frc.robot.Util.logf;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,7 +14,7 @@ import frc.robot.RobotContainer.RobotMode;
 import frc.robot.subsystems.LedSubsystem.Leds;
 import frc.robot.utilities.RunningAverage;
 
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 
 public class IntakeSubsystem extends SubsystemBase {
     private static final int GRABBER_INTAKE_MOTOR_ID = 10;
@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     //private PID_MAX pid = new PID_MAX();
     //private int timeOverMax = 0;
     //private int timeAtOverCurrent = 0;
-    private SparkMaxPIDController pidController;
+    private SparkPIDController pidController;
     private boolean currentMode = false;
     private RunningAverage avg = new RunningAverage(10);
 

@@ -1,15 +1,15 @@
 package frc.robot.utilities;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.LedSubsystem.Leds;
 
 public class LimitSwitch {
-    private SparkMaxLimitSwitch forwardLimit;
-    private SparkMaxLimitSwitch reverseLimit;
+    private SparkLimitSwitch forwardLimit;
+    private SparkLimitSwitch reverseLimit;
     boolean lastForward = true;
     boolean lastReverse = true;
     Leds forwardLed;
@@ -21,8 +21,8 @@ public class LimitSwitch {
     public LimitSwitch(CANSparkMax motor, String name, Leds forwardLed, Leds reverseLed) {
         this.forwardLed = forwardLed;
         this.reverseLed = reverseLed;
-        forwardLimit = motor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-        reverseLimit = motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+        forwardLimit = motor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        reverseLimit = motor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
         forwardLimit.enableLimitSwitch(true);
         reverseLimit.enableLimitSwitch(true);
         forwardName = name + "for";

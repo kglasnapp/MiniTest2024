@@ -160,6 +160,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
     return rightEncoder.getDistance();
   }
 
+  public double getRightSpeed() {
+    return rightEncoder.getRate();
+  }
+
+  public double getLeftSpeed() {
+    return leftEncoder.getRate();
+  }
   public double getLeft() {
     return leftEncoder.getDistance();
   }

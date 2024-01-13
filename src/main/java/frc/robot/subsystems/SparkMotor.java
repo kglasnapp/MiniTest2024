@@ -4,10 +4,11 @@ import static frc.robot.Util.logf;
 import static frc.robot.Util.round2;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -54,7 +55,7 @@ public class SparkMotor extends SubsystemBase {
     private int motorID = 0;
     private LimitSwitch limitSwitch;
     private CANSparkMax motor;
-    private SparkMaxPIDController pidController;
+    private SparkPIDController pidController;
     private RelativeEncoder distanceEncoder;
     private PID_MAX pid = new PID_MAX();
     private boolean homed = false;

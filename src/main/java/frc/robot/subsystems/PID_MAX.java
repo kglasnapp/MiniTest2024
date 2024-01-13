@@ -1,16 +1,16 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Util.logf;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PID_MAX {
 
-    private SparkMaxPIDController pidController;
+    private SparkPIDController pidController;
     private String pidName;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxVel, minVel, maxAcc, allowedErr;
 
-    public void PIDCoefficientsTilt(SparkMaxPIDController pidController) {
+    public void PIDCoefficientsTilt(SparkPIDController pidController) {
         kP = 5e-5;
         kI = 1e-6;
         kD = 0;
@@ -27,7 +27,7 @@ public class PID_MAX {
 
     }
 
-    public void PIDCoefficientsElevator(SparkMaxPIDController pidController) {
+    public void PIDCoefficientsElevator(SparkPIDController pidController) {
         kP = 5e-5;
         kI = 1e-6;
         kD = 0;
@@ -43,7 +43,7 @@ public class PID_MAX {
         pidName = "Elevator";
     }
     
-    public void PIDCoefficientsIntake(SparkMaxPIDController pidController) {
+    public void PIDCoefficientsIntake(SparkPIDController pidController) {
         kP = .03;
         kI = 0;
         kD = 0;

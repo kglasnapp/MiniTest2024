@@ -13,7 +13,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Util.logf;
 
-public class LimeLightPose extends SubsystemBase {
+public class LimeLightDataSubsystem extends SubsystemBase {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
@@ -22,8 +22,11 @@ public class LimeLightPose extends SubsystemBase {
     ShuffleboardTab tab;
     private final Field2d field2d = new Field2d();
     Pose2d pose = new Pose2d();
+    private double x;
+    private double y;
+    private double area;
 
-    public LimeLightPose() {
+    public LimeLightDataSubsystem() {
         tab = Shuffleboard.getTab("Vision Keith");
         tab.addString("Pose", this::getFomattedPose).withPosition(0, 0).withSize(2, 0);
         tab.add("Field", field2d).withPosition(2, 0).withSize(6, 4);
@@ -31,15 +34,15 @@ public class LimeLightPose extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //read values periodically
-        double x = tx.getDouble(0.0);
-        double y = ty.getDouble(0.0);
-        double area = ta.getDouble(0.0);
+        // read values periodically
+        x = tx.getDouble(0.0);
+        y = ty.getDouble(0.0);
+        area = ta.getDouble(0.0);
         double llPose[] = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpiblue")
                 .getDoubleArray(new double[6]);
         pose = new Pose2d(llPose[0], llPose[1], new Rotation2d(Math.toRadians(llPose[5])));
         field2d.setRobotPose(pose);
-        //post to smart dashboard periodically
+        // post to smart dashboard periodically
         SmartDashboard.putNumber("LimeLX", x);
         SmartDashboard.putNumber("LimeLY", y);
         SmartDashboard.putNumber("LimeLArea", area);
@@ -54,5 +57,17 @@ public class LimeLightPose extends SubsystemBase {
             logf("Pose %s\n", s);
         }
         return s;
+    }
+
+    double getX() {
+        return x;
+    }
+
+    double getY() {
+        return y;
+    }
+
+    double getArea() {
+        return area;
     }
 }
