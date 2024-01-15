@@ -8,6 +8,13 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 
+/**
+ * 3ft: 60deg 0.5 power
+ * 4ft: 55deg 0.5 power
+ * 6ft: 50deg 0.7 power
+ * 7ft: 44deg 0.7 power
+ * 8ft: 42deg 0.7 power
+*/
 public class Robot extends TimedRobot {
   CANSparkBase motorR = new CANSparkFlex(1, MotorType.kBrushless);
   CANSparkBase motorL = new CANSparkFlex(2, MotorType.kBrushless);
